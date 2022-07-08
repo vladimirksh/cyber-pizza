@@ -24,9 +24,22 @@ body {
   }
 
   &__items {
-    display: flex;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    /*display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between;*/
+  }
+
+  @media screen and (max-width: 1410px) {
+    &__items {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+    }
   }
 
   &__top {
