@@ -3,7 +3,6 @@
 .categories {
   ul {
     display: flex;
-
     li {
       background-color: #f9f9f9;
       padding: 13px 30px;
@@ -27,5 +26,17 @@
         color: #fff;
       }
     }
+  }
+  @media screen and (max-width: 1410px) {
+    ul {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 1007px) {
+  .categories {
+    width: 80%;
+    overflow: auto;
   }
 }

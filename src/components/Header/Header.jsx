@@ -1,25 +1,29 @@
 import React from "react";
 import logo from "../../assets/img/logo.svg";
 import basket from "../../assets/img/basket.svg";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
     <div className="header">
       <div className="container">
-        <div className="header__logo">
-          <img src={logo} alt="Логотип" />
-          <div>
-            <h1>Pizza</h1>
-            <p>самая вкусная пицца во вселенной</p>
+        <Link to="/">
+          <div className="header__logo">
+            <img src={logo} alt="Логотип" />
+            <div>
+              <h1>Pizza</h1>
+              <p>самая вкусная пицца</p>
+            </div>
           </div>
-        </div>
+        </Link>
+
         <div className="header__cart">
-          <a href="/cart.html" className="button button--cart">
+          <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
             <div className="button__delimiter"></div>
             <img src={basket} alt="Корзина" />
             <span>3</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
