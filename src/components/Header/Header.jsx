@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <div className="header">
+    <header className="header">
       <div className="container">
         <Link to="/">
           <div className="header__logo">
@@ -26,7 +26,7 @@ function Header() {
           </Link>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
