@@ -31,9 +31,14 @@
     }
   }
 
-  @media screen and (max-width: 465px) {
+  @media screen and (max-width: 900px) {
     .container {
       flex-direction: column;
+
+      form {
+        margin: 10px;
+        max-width: 80%;
+      }
     }
     &__logo {
       margin-bottom: 15px;
