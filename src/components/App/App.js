@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Header from "../Header/Header";
@@ -10,6 +10,7 @@ export const SearchContext = React.createContext("");
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
+
   return (
     <SearchContext.Provider value={{ searchValue, setSearchValue }}>
       <div className="wrapper">

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSortType } from "../../redux/slices/filterSlice";
 import up from "../../assets/img/arrow.svg";
 import down from "../../assets/img/arrow-down.svg";
 
-function Sort({ sortType, onClickSort }) {
+function Sort() {
   const [open, setOpen] = useState(false);
   const list = [
     { name: "популярности (убыванию)", sort: "rating", desc: true },
@@ -10,6 +12,14 @@ function Sort({ sortType, onClickSort }) {
     { name: "цене (убыванию)", sort: "price", desc: true },
     { name: "цене (возрастанию)", sort: "price", desc: false },
   ];
+
+  const dispatch = useDispatch();
+  const sortType = useSelector((state) => state.filter.sortType);
+
+  const onChangeSort = (obj) => {
+    dispatch(setSortType(obj));
+    setOpen(!open);
+  };
 
   return (
     <div className="sort">
@@ -25,8 +35,7 @@ function Sort({ sortType, onClickSort }) {
               <li
                 key={i}
                 onClick={() => {
-                  onClickSort(obj);
-                  setOpen(!open);
+                  onChangeSort(obj);
                 }}
                 className={sortType.name === obj.name ? "active" : ""}
               >
