@@ -1,28 +1,30 @@
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import clear from "../../assets/img/clear.svg";
 import debounce from "lodash.debounce";
 import { SearchContext } from "../App/App";
 
 function Search() {
-  const { searchValue, setSearchValue } = useContext(SearchContext);
+  const { setSearchValue } = useContext(SearchContext);
+  const [value, setValue] = useState("");
 
   const inputRef = useRef();
 
-  const testDebounnce = useCallback(
-    debounce(() => {
-      console.log("hi");
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
     }, 1000),
     []
   );
 
   const onChangeInput = (e) => {
-    setSearchValue(e.target.value);
-    testDebounnce();
+    setValue(e.target.value);
+    updateSearchValue(e.target.value);
   };
 
   const onClickClear = () => {
     setSearchValue("");
+    setValue("");
     inputRef.current.focus();
   };
 
@@ -30,12 +32,12 @@ function Search() {
     <form className={styles.form}>
       <input
         ref={inputRef}
-        value={searchValue}
+        value={value}
         onChange={(e) => onChangeInput(e)}
         className={styles.input}
         placeholder="Поиск пиццы..."
       />
-      {searchValue && (
+      {value && (
         <button onClick={() => onClickClear()}>
           <img alt="Очистить" src={clear} />
         </button>
