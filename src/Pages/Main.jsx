@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setFilters } from "../redux/slices/filterSlice";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
-import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -24,25 +24,12 @@ function Main() {
   const { categoryId, sortType, pageCount } = useSelector(
     (state) => state.filter
   );
+  const { items, status } = useSelector((state) => state.pizza);
 
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { searchValue } = useContext(SearchContext);
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-    axios
-      .get(
-        `https://62c828458c90491c2cb00d05.mockapi.io/items?p=${pageCount}&l=4&${
-          categoryId > 0 ? `category=${categoryId}` : ``
-        }&sortBy=${sortType.sort}&order=${
-          sortType.desc ? `desc` : "asc"
-        }&search=${searchValue ? `${searchValue}` : ""}`
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+  const getPizzas = () => {
+    dispatch(fetchPizzas({ categoryId, sortType, pageCount, searchValue }));
   };
 
   useEffect(() => {
@@ -69,7 +56,7 @@ function Main() {
 
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [categoryId, sortType, pageCount, searchValue]);
@@ -81,11 +68,21 @@ function Main() {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(4)].map((_, i) => <PizzaSkeleton key={i} />)
-          : items.map((item) => <Pizza {...item} key={item.id} />)}
-      </div>
+      {status === "error" ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>
+            К сожалению, не удалось получить данные с сервера. Попробуйте
+            повторить попытку позже.
+          </p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading"
+            ? [...new Array(4)].map((_, i) => <PizzaSkeleton key={i} />)
+            : items.map((item) => <Pizza {...item} key={item.id} />)}
+        </div>
+      )}
       <Pagination />
     </>
   );
