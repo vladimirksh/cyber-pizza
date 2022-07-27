@@ -1,8 +1,6 @@
-import React from "react";
-
 import styles from "./NotFoundBlock.module.scss";
 
-function NotFoundBlock(props) {
+function NotFoundBlock() {
   return (
     <div className={styles.root}>
       <h1>
@@ -11,7 +9,7 @@ function NotFoundBlock(props) {
         Ничего не найдено
       </h1>
       <p className={styles.description}>
-        К сожалени данная страница отсутствует в нашем интернет-магазине
+        К сожалению данная страница отсутствует в нашем интернет-магазине.
       </p>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setFilters } from "../redux/slices/filterSlice";
@@ -13,20 +13,16 @@ import Pizza from "../components/Pizza/Pizza";
 import PizzaSkeleton from "../components/PizzaSkeleton/PizzaSkeleton";
 import Pagination from "../components/Pagination/Pagination";
 
-import { SearchContext } from "../../src/components/App/App";
-
-function Main() {
+const Main: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { categoryId, sortType, pageCount } = useSelector(
+  const { categoryId, sortType, pageCount, searchValue } = useSelector(
     (state) => state.filter
   );
   const { items, status } = useSelector((state) => state.pizza);
-
-  const { searchValue } = useContext(SearchContext);
 
   const getPizzas = () => {
     dispatch(fetchPizzas({ categoryId, sortType, pageCount, searchValue }));
@@ -80,12 +76,12 @@ function Main() {
         <div className="content__items">
           {status === "loading"
             ? [...new Array(4)].map((_, i) => <PizzaSkeleton key={i} />)
-            : items.map((item) => <Pizza {...item} key={item.id} />)}
+            : items.map((item: any) => <Pizza {...item} key={item.id} />)}
         </div>
       )}
       <Pagination />
     </>
   );
-}
+};
 
 export default Main;

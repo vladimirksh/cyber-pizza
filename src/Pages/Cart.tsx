@@ -1,19 +1,21 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 import basket from "../assets/img/basket-black.svg";
 import trash from "../assets/img/trash.svg";
 
 import { useSelector, useDispatch } from "react-redux";
-import { cleatItem } from "../redux/slices/cartSlice";
+import { cleatItem, selectCart } from "../redux/slices/cartSlice";
 
 import CartItem from "../components/CartItem/CartItem";
 
 import CartEmpty from "../components/CartEmpty/CartEmpty";
 
-function Cart() {
-  const { totalPrice, items } = useSelector((state) => state.cart);
-  const totalItems = items.reduce((sum, item) => sum + item.count, 0);
+const Cart: React.FC = () => {
+  const { totalPrice, items } = useSelector(selectCart);
+  const totalItems = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
 
   const dispatch = useDispatch();
 
@@ -41,7 +43,7 @@ function Cart() {
           </div>
         </div>
         <div className="content__items">
-          {items.map((item) => (
+          {items.map((item: any) => (
             <CartItem key={item.id} {...item} />
           ))}
         </div>
@@ -69,6 +71,6 @@ function Cart() {
       </div>
     </div>
   );
-}
+};
 
 export default Cart;

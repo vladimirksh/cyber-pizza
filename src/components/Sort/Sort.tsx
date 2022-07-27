@@ -1,13 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSortType } from "../../redux/slices/filterSlice";
 import up from "../../assets/img/arrow.svg";
 import down from "../../assets/img/arrow-down.svg";
 
 function Sort() {
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const list = [
+
+  type SortItem = {
+    name: string;
+    sort: string;
+    desc: boolean;
+  };
+
+  const list: SortItem[] = [
     { name: "популярности (убыванию)", sort: "rating", desc: true },
     { name: "популярности (возрастанию)", sort: "rating", desc: false },
     { name: "цене (убыванию)", sort: "price", desc: true },
@@ -17,13 +24,13 @@ function Sort() {
   const dispatch = useDispatch();
   const sortType = useSelector((state) => state.filter.sortType);
 
-  const onChangeSort = (obj) => {
+  const onChangeSort = (obj: SortItem) => {
     dispatch(setSortType(obj));
     setOpen(!open);
   };
 
   useEffect(() => {
-    const handelClickOutside = (e) => {
+    const handelClickOutside = (e: any) => {
       if (!e.path.includes(sortRef.current)) {
         setOpen(false);
       }

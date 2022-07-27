@@ -5,10 +5,14 @@ import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 
 import { useSelector } from "react-redux";
+import { selectCart } from "../../redux/slices/cartSlice";
 
 function Header() {
-  const { totalPrice, items } = useSelector((state) => state.cart);
-  const totalItems = items.reduce((sum, item) => sum + item.count, 0);
+  const { totalPrice, items } = useSelector(selectCart);
+  const totalItems = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
 
   return (
     <header className="header">

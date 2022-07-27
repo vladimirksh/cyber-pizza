@@ -1,7 +1,6 @@
-import React from "react";
 import NotFoundBlock from "../components/NotFoundBlock/NotFoundBlock";
 
-function NotFound(props) {
+function NotFound() {
   return <NotFoundBlock />;
 }
 export default NotFound;

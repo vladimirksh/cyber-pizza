@@ -1,4 +1,3 @@
-import React from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch } from "react-redux";
 import { setPageCount } from "../../redux/slices/filterSlice";
@@ -19,7 +18,6 @@ function Pagination() {
       }}
       pageRangeDisplayed={4}
       pageCount={3}
-      renderOnZeroPageCount={null}
     />
   );
 }
