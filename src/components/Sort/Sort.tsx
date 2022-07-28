@@ -1,10 +1,12 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSortType } from "../../redux/slices/filterSlice";
 import up from "../../assets/img/arrow.svg";
 import down from "../../assets/img/arrow-down.svg";
+import { RootState } from "../../redux/store";
 
-function Sort() {
+const Sort: React.FC = React.memo(() => {
   const sortRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -22,7 +24,7 @@ function Sort() {
   ];
 
   const dispatch = useDispatch();
-  const sortType = useSelector((state) => state.filter.sortType);
+  const sortType = useSelector((state: RootState) => state.filter.sortType);
 
   const onChangeSort = (obj: SortItem) => {
     dispatch(setSortType(obj));
@@ -30,8 +32,12 @@ function Sort() {
   };
 
   useEffect(() => {
-    const handelClickOutside = (e: any) => {
-      if (!e.path.includes(sortRef.current)) {
+    const handelClickOutside = (e: MouseEvent) => {
+      const _event = e as MouseEvent & {
+        path: Node[];
+      };
+
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
@@ -69,6 +75,6 @@ function Sort() {
       )}
     </div>
   );
-}
+});
 
 export default Sort;

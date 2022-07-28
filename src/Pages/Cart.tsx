@@ -6,7 +6,7 @@ import trash from "../assets/img/trash.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { cleatItem, selectCart } from "../redux/slices/cartSlice";
 
-import CartItem from "../components/CartItem/CartItem";
+import CartItemBlock from "../components/CartItemBlock/CartItemBlock";
 
 import CartEmpty from "../components/CartEmpty/CartEmpty";
 
@@ -44,7 +44,7 @@ const Cart: React.FC = () => {
         </div>
         <div className="content__items">
           {items.map((item: any) => (
-            <CartItem key={item.id} {...item} />
+            <CartItemBlock key={item.id} {...item} />
           ))}
         </div>
         <div className="cart__bottom">

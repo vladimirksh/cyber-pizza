@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
-import { setFilters } from "../redux/slices/filterSlice";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { useSelector } from "react-redux";
+import { setFilters, setCategoryId } from "../redux/slices/filterSlice";
+import { fetchPizzas, SearchPizzaParams } from "../redux/slices/pizzaSlice";
 
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
@@ -12,17 +12,18 @@ import Sort from "../components/Sort/Sort";
 import Pizza from "../components/Pizza/Pizza";
 import PizzaSkeleton from "../components/PizzaSkeleton/PizzaSkeleton";
 import Pagination from "../components/Pagination/Pagination";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const Main: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const { categoryId, sortType, pageCount, searchValue } = useSelector(
-    (state) => state.filter
+    (state: RootState) => state.filter
   );
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state: RootState) => state.pizza);
 
   const getPizzas = () => {
     dispatch(fetchPizzas({ categoryId, sortType, pageCount, searchValue }));
@@ -44,7 +45,9 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as SearchPizzaParams;
       dispatch(setFilters(params));
       isSearch.current = true;
     }
@@ -57,10 +60,14 @@ const Main: React.FC = () => {
     isSearch.current = false;
   }, [categoryId, sortType, pageCount, searchValue]);
 
+  const onChangeCategory = useCallback((id: number) => {
+    dispatch(setCategoryId(id));
+  }, []);
+
   return (
     <>
       <div className="content__top">
-        <Categories />
+        <Categories onChangeCategory={onChangeCategory} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>

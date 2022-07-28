@@ -1,5 +1,10 @@
-import { useDispatch } from "react-redux";
-import { addItem, removeItem, minusItem } from "../../redux/slices/cartSlice";
+import {
+  addItem,
+  removeItem,
+  minusItem,
+  CartItem,
+} from "../../redux/slices/cartSlice";
+import { useAppDispatch } from "../../redux/store";
 
 type CartItemProps = {
   id: number;
@@ -11,7 +16,7 @@ type CartItemProps = {
   size: number;
 };
 
-const CartItem: React.FC<CartItemProps> = ({
+const CartItemBlock: React.FC<CartItemProps> = ({
   id,
   title,
   price,
@@ -20,10 +25,14 @@ const CartItem: React.FC<CartItemProps> = ({
   type,
   size,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onClickPlus = () => {
-    dispatch(addItem({ id }));
+    dispatch(
+      addItem({
+        id,
+      } as CartItem)
+    );
   };
 
   const onClickMinus = () => {
@@ -46,7 +55,8 @@ const CartItem: React.FC<CartItemProps> = ({
         </p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
+          disabled={count === 1}
           onClick={onClickMinus}
           className="button button--outline button--circle cart__item-count-minus"
         >
@@ -66,9 +76,9 @@ const CartItem: React.FC<CartItemProps> = ({
               fill="#EB5A1E"
             ></path>
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div
+        <button
           onClick={onClickPlus}
           className="button button--outline button--circle cart__item-count-plus"
         >
@@ -88,13 +98,13 @@ const CartItem: React.FC<CartItemProps> = ({
               fill="#EB5A1E"
             ></path>
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div
+        <button
           onClick={onClickRemove}
           className="button button--outline button--circle"
         >
@@ -114,10 +124,10 @@ const CartItem: React.FC<CartItemProps> = ({
               fill="#EB5A1E"
             ></path>
           </svg>
-        </div>
+        </button>
       </div>
     </div>
   );
 };
 
-export default CartItem;
+export default CartItemBlock;
