@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import logo from "../../assets/img/logo.svg";
 import basket from "../../assets/img/basket.svg";
 import { Link, useLocation } from "react-router-dom";
@@ -8,12 +8,21 @@ import { useSelector } from "react-redux";
 import { selectCart } from "../../redux/slices/cartSlice";
 
 function Header() {
+  const isMounted = useRef(false);
   const location = useLocation();
   const { totalPrice, items } = useSelector(selectCart);
   const totalItems = items.reduce(
     (sum: number, item: any) => sum + item.count,
     0
   );
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cart", json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <header className="header">
